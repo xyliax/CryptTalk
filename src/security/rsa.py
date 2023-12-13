@@ -1,56 +1,26 @@
-def run():
-    return "hello from python"
 
-
-from Crypto import Random
 from Crypto.PublicKey import RSA
-from Crypto.Cipher import PKCS1_v1_5 as Cipher_pkcs1_v1_5
-import base64
-from Crypto.Hash import SHA
-from Crypto.Signature import PKCS1_v1_5 as Signature_pkcs1_v1_5
+from Crypto.Cipher import PKCS1_OAEP
 
-def CreateKeys():
-    # ramdom creator
-    random_generator = Random.new().read
+# Generate a new RSA key pair
+key = RSA.generate(2048)
 
-    rsa = RSA.generate(1024, random_generator)
-    # creating securate key
-    private_pem = rsa.exportKey()
-    with open("private.pem", "wb") as f:
-        f.write(private_pem)
-    # creating public key
-    public_pem = rsa.publickey().exportKey()
-    with open("public.pem", "wb") as f:
-        f.write(public_pem)
+# Get the public key
+public_key = key.publickey().export_key()
 
-def encrypt(plain_text):
-    rsakey = RSA.importKey(open("public.pem").read())
-    cipher = Cipher_pkcs1_v1_5.new(rsakey)  # 创建用于执行pkcs1_v1_5加密或解密的密码
-    cipher_text = base64.b64encode(cipher.encrypt(plain_text.encode('utf-8')))
-    return cipher_text
+# Get the private key
+private_key = key.export_key()
 
-def decrypt(cipher_text):
-    encrypt_text = cipher_text.encode('utf-8')
-    rsakey = RSA.importKey(open("private.pem").read())
-    cipher = Cipher_pkcs1_v1_5.new(rsakey)  # 创建用于执行pkcs1_v1_5加密或解密的密码
-    text = cipher.decrypt(base64.b64decode(encrypt_text), "解密失败")
-    return text.decode('utf-8')
+# Encrypt the string "love" using the public key
+cipher_rsa = PKCS1_OAEP.new(RSA.import_key(public_key))
+encrypted_message = cipher_rsa.encrypt(b"love")
 
-def sign(message):
-    rsakey = RSA.importKey(open("private.pem").read())
-    signer = Signature_pkcs1_v1_5.new(rsakey)
-    digest = SHA.new()
-    digest.update(message.encode("utf-8"))
-    sign = signer.sign(digest)
-    signature = base64.b64encode(sign)
-    return signature.decode('utf-8')
+# Decrypt the encrypted message using the private key
+cipher_rsa = PKCS1_OAEP.new(RSA.import_key(private_key))
+decrypted_message = cipher_rsa.decrypt(encrypted_message)
 
-def verify(message, signature):
-    rsakey = RSA.importKey(open("public.pem").read())
-    verifier = Signature_pkcs1_v1_5.new(rsakey)
-    hsmsg = SHA.new()
-    hsmsg.update(message.encode("utf-8"))
-    is_verify = verifier.verify(hsmsg, base64.b64decode(signature))
-    return is_verify
+# Print the original string, encrypted message, and decrypted message
+print("Original string:", "love")
+print("Encrypted message:", encrypted_message)
+print("Decrypted message:", decrypted_message.decode())
 
-# reference https://www.cnblogs.com/deliaries/p/13445277.html
