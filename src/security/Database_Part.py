@@ -17,12 +17,9 @@ def add_data(conn,username, password, email):
         INSERT INTO users (username, password, email)
         VALUES (?, ?, ?)
     '''
-    if check_member_exists(conn,username):
-        return False
     data = [(username, password, email)]
     conn.executemany(insert_data_query, data)
     conn.commit()
-    return True
 
 def check_member_exists(conn,name):
     query = '''
