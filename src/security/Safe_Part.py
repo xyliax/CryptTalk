@@ -80,3 +80,8 @@ def calculate_shared_secret(prime, public_key, private_key):
 def getgenerator_SK(prime) : # a function which is used to generate a generator and a private key
     return random.randomint(2,prime-1)
 
+def get_numbers(string): # a function which can get all of the number in a string, and output an integer
+  numbers = re.findall(r'\d+', string)
+  concatenated_number = int(''.join(numbers))
+  return concatenated_number
+
