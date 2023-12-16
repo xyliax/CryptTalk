@@ -1,4 +1,5 @@
 import rsa
+import re
 import random
 from Crypto.Hash import SHA256
 from Crypto.Cipher import AES
@@ -78,7 +79,7 @@ def calculate_shared_secret(prime, public_key, private_key):
     return(fast_modular_exponentiation(public_key, private_key, prime))
 
 def getgenerator_SK(prime) : # a function which is used to generate a generator and a private key
-    return random.randomint(2,prime-1)
+    return random.randint(2,prime-1)
 
 def get_numbers(string): # a function which can get all of the number in a string, and output an integer
   numbers = re.findall(r'\d+', string)
