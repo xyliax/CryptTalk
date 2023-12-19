@@ -29,7 +29,7 @@ def Login(client,conn,myPrivatekey,clientPublickey) :
     email=bytes.fromhex(getemail(conn,username))
     email=decrypt_with_aes(email,'POLYU')
     email=encrypt_with_public_key(clientPublickey,email)
-    client.send(email)
+    send_byte(client,email)
     return 0# login successfully
    
     
