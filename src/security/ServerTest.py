@@ -20,7 +20,6 @@ def Register(client,conn,myPrivatekey) :
 def Login(client,conn,myPrivatekey,clientPublickey) :
     username=recv_byte(client)
     username=decrypt_with_private_key(myPrivatekey,username)
-    print(username)
     if(check_member_exists(conn,username)==False):
         return 1 # username not exists
     password=recv_byte(client)
