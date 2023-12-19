@@ -1,0 +1,13 @@
+syntax = "proto3";
+
+package talk_api;
+
+service TalkService {
+  rpc Connect(ConnectRequest) returns (ConnectResponse);
+}
+
+message ConnectRequest {
+}
+
+message ConnectResponse {
+}
