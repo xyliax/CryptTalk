@@ -1,19 +1,7 @@
 from socket import *
 from Safe_Part import *
-import time
-def send_string(client, message):
-  client.send(bytes(message, encoding='utf-8'))
-  time.sleep(3)
-  
-def recv_string(client):
-  return client.recv(2100).decode('utf-8')
-
-def send_byte(client,message) :
-  client.send(message)
-  time.sleep(3)
-
-def recv_byte(client) :
-  return client.recv(2100)
+from Socket_Transfer_Part import *
+from Socket_Transfer_Part import *
 
 def Register(client,ServerPublicKey,username,password,email) :
    
@@ -35,6 +23,7 @@ def Login(client,myPrivatekey,ServerPublicKey,username,password) :
 
 def Keyexchange(myPublickey,Client) :
     myPublickey,myPrivatekey=generate_key_pair()
+    
     string=recv_string(Client)
     if string[0:5]=='prime' :
         prime=get_numbers(string)
