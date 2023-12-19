@@ -2,6 +2,7 @@ from socket import *
 from Safe_Part import *
 from Socket_Transfer_Part import *
 from Socket_Transfer_Part import *
+from Database_Part import *
 
 def Register(client,ServerPublicKey,username,password,email) :
    

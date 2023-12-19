@@ -1,5 +1,6 @@
 from socket import *
 from Safe_Part import *
+from Database_Part import *
 import time
 def send_string(client, message):
   client.send(bytes(message, encoding='utf-8'))
